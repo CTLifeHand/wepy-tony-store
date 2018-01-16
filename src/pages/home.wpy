@@ -109,17 +109,20 @@ export default class Home extends wepy.page {
     })
     console.log('getDiscoverList')
     console.log(json)
-    if (json.data.code === 0) {
+    if (json.data.code == 0) { // 因为需要全等才可以 这里的确需要转型
       that.discoverList = [...that.discoverList, ...json.data.list]
       /* 后台没有总页数这个返回来了 可能没有就是只有一页 开发先写成可以一直加载 */
       that.page_total = that.discoverList.length
-      if (json.data.page_total === 0) {
+      if (json.data.page_total == 0) {
         // 暂无数据
         that.is_empty = true
       }
+      console.log(that)
+      console.log(this)
       that.$apply()
     } else {
-      tip.error(json.data.msg)
+      // tip.error(json.data.msg) // 这里也是后台返回问题
+      tip.error(json.data.reason)
     }
     that.showLoading = false
   }
@@ -131,7 +134,7 @@ export default class Home extends wepy.page {
     console.log(this) // this也是没问题
     console.log('getAdList')
     console.log(json)
-    if (json.data.code === 0) {
+    if (json.data.code == 0) {
       this.adList = json.data.list
       this.$apply()
     } else { }
@@ -159,7 +162,7 @@ export default class Home extends wepy.page {
         console.log(res.target)
       }
       return {
-        title: '素洁服装厂',
+        title: 'tony-电商',
         path: '/pages/home',
         success: function (res) {
           // 转发成功

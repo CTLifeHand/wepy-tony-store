@@ -11,7 +11,8 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'frame/home'
+      'frame/home',
+      'frame/classify'
     ],
     window: {
       backgroundTextStyle: 'dark',
@@ -32,20 +33,20 @@ export default class extends wepy.app {
         'iconPath': 'images/icon_home.png',
         'selectedIconPath': 'images/icon_home_active.png'
       }, {
-        // 'pagePath': 'frame/classify',
-        'pagePath': 'frame/home',
+        // 'pagePath': 'frame/home',
+        'pagePath': 'frame/classify',
         'text': '分类',
         'iconPath': 'images/icon_classify.png',
         'selectedIconPath': 'images/icon_classify_active.png'
       }, {
-        // 'pagePath': 'frame/shop_cart',
         'pagePath': 'frame/home',
+        // 'pagePath': 'frame/shop_cart',
         'text': '购物车',
         'iconPath': 'images/icon_shop_cart.png',
         'selectedIconPath': 'images/icon_shop_cart_active.png'
       }, {
-        // 'pagePath': 'frame/info',
         'pagePath': 'frame/home',
+        // 'pagePath': 'frame/info',
         'text': '我',
         'iconPath': 'images/icon_info.png',
         'selectedIconPath': 'images/icon_info_active.png'

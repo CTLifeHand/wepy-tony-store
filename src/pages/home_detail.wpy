@@ -91,21 +91,21 @@ export default class HomeDetail extends wepy.page {
   onLoad(option) {
     this.cate = {}
     this.list = []
-    this.skuval = '';
+    this.skuval = ''
     this.catCode = option.code
     this.is_empty = false
-    //当前页面
+    // 当前页面
     this.currentPage = 1
-    //总页数
+    // 总页数
     this.page_total = 0
-    //是否显示 底部loading
+    // 是否显示 底部loading
     this.showLoading = true
-    //防止重复加载
+    // 防止重复加载
     this.preventRepeatReuqest = false
     this.sort = 1
     console.log('id===' + this.catCode)
-    //this.list = bb.result.products;
-    //this.$apply();
+    // this.list = bb.result.products;
+    // this.$apply();
     this.getGoodList()
   }
   computed = {
@@ -160,7 +160,7 @@ export default class HomeDetail extends wepy.page {
     let that = this
     that.showLoading = true
     console.log(that.page_total + '===' + that.currentPage)
-    //判断总页数是否大于翻页数
+    // 判断总页数是否大于翻页数
     if ((that.page_total) > that.currentPage) {
       // 防止重复加载
       if (that.preventRepeatReuqest) {

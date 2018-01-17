@@ -4,7 +4,9 @@ wepy store tony
 ### 项目构建
 npm install wepy-cli -g
 
+### 一些框架需要改进的地方 (Cannot read property 'script' of null)
 - 同样有bug 一旦有wpy 就会被编译 等于有错误的代码会自动失败
+- 就算新建一个文件夹frame 也会有同样的问题
 
 ### 开发使用说明
 

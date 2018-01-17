@@ -163,7 +163,7 @@ export default class Home extends wepy.page {
       }
       return {
         title: 'tony-电商',
-        path: '/pages/home',
+        path: '/frame/home',
         success: function (res) {
           // 转发成功
         },

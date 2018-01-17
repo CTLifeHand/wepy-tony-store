@@ -11,7 +11,7 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/home'
+      'frame/home'
     ],
     window: {
       backgroundTextStyle: 'dark',
@@ -27,25 +27,25 @@ export default class extends wepy.app {
       'backgroundColor': '#ffffff',
       'borderStyle': 'black',
       'list': [{
-        'pagePath': 'pages/home',
+        'pagePath': 'frame/home',
         'text': '首页',
         'iconPath': 'images/icon_home.png',
         'selectedIconPath': 'images/icon_home_active.png'
       }, {
-        // 'pagePath': 'pages/classify',
-        'pagePath': 'pages/home',
+        // 'pagePath': 'frame/classify',
+        'pagePath': 'frame/home',
         'text': '分类',
         'iconPath': 'images/icon_classify.png',
         'selectedIconPath': 'images/icon_classify_active.png'
       }, {
-        // 'pagePath': 'pages/shop_cart',
-        'pagePath': 'pages/home',
+        // 'pagePath': 'frame/shop_cart',
+        'pagePath': 'frame/home',
         'text': '购物车',
         'iconPath': 'images/icon_shop_cart.png',
         'selectedIconPath': 'images/icon_shop_cart_active.png'
       }, {
-        // 'pagePath': 'pages/info',
-        'pagePath': 'pages/home',
+        // 'pagePath': 'frame/info',
+        'pagePath': 'frame/home',
         'text': '我',
         'iconPath': 'images/icon_info.png',
         'selectedIconPath': 'images/icon_info_active.png'

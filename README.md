@@ -8,6 +8,9 @@ npm install wepy-cli -g
 - 同样有bug 一旦有wpy 就会被编译 等于有错误的代码会自动失败
 - 就算新建一个文件夹frame 也会有同样的问题
 
+### 接口
+- getKeyWordHisList X
+
 ### 开发使用说明
 
 使用微信开发者工具新建项目，本地开发选择dist目录。

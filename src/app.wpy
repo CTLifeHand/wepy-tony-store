@@ -12,7 +12,8 @@ export default class extends wepy.app {
   config = {
     pages: [
       'frame/home',
-      'frame/classify'
+      'frame/classify',
+      'pages/search'
     ],
     window: {
       backgroundTextStyle: 'dark',

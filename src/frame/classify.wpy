@@ -60,9 +60,8 @@ export default class Classify extends wepy.page {
     console.log(json)
     if (json.data.code == 0) {
       this.childcateList = json.data.list
-      tip.error(json.data.msg)
     } else {
-      tip.error(json.data.msg)
+      tip.error(json.data.msg) // 这个msg也是空的
     }
     this.$apply()
   }
@@ -72,7 +71,6 @@ export default class Classify extends wepy.page {
       query: {}
     })
     console.log(json)
-
     if (json.data.code == 0) {
       this.rootcateList = json.data.list
       if (this.rootcateList.length > 0) {

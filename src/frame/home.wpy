@@ -117,8 +117,6 @@ export default class Home extends wepy.page {
         // 暂无数据
         that.is_empty = true
       }
-      console.log(that)
-      console.log(this)
       that.$apply()
     } else {
       // tip.error(json.data.msg) // 这里也是后台返回问题
@@ -131,7 +129,6 @@ export default class Home extends wepy.page {
     const json = await api.getAdList({
       query: {}
     })
-    console.log(this) // this也是没问题
     console.log('getAdList')
     console.log(json)
     if (json.data.code == 0) {

@@ -8,8 +8,37 @@ npm install wepy-cli -g
 - 同样有bug 一旦有wpy 就会被编译 等于有错误的代码会自动失败
 - 就算新建一个文件夹frame 也会有同样的问题
 
+### wxParse的wxParseImgTap的bug修复
+- http://blog.csdn.net/zhuming3834/article/details/74380079
+
+```
+
+  wxParseImgLoad(e) {
+    console.log('wxParseImgLoad')
+    console.log(e)
+  }
+
+  wxParseImgTap(e) {
+    console.log('wxParseImgTap')
+    console.log(e)
+    var that = this
+    var nowImgUrl = e.target.dataset.src
+    var tagFrom = e.target.dataset.from
+    if (typeof (tagFrom) != 'undefined' && tagFrom.length > 0) {
+      wx.previewImage({
+        current: nowImgUrl, // 当前显示图片的http链接
+        // urls: that.data[tagFrom].imageUrls // 需要预览的图片http链接列表
+        urls: that.bindData[tagFrom].imageUrls  // 注释掉上面的 换着一行 (http://blog.csdn.net/zhuming3834/article/details/74380079)
+      })
+    }
+  }
+```
+
 ### 接口
 - getKeyWordHisList X
+
+### 知识点
+- previewImage由wx提供
 
 ### 开发使用说明
 

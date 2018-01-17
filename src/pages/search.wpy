@@ -142,6 +142,8 @@ export default class Search extends wepy.page {
           keyword: keyword
         }
       })
+      console.log('addSearchKeyword')
+      console.log(resultJson)
     }
   }
   async clearUserKeywords() {

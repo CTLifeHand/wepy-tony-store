@@ -5,6 +5,7 @@
     <swiper indicator-dots="true" autoplay="true" interval="5000" duration="500" indicator-active-color="#ffc452" indicator-color="#efefef" class="swiper">
       <block wx:for="{{detail.photoList}}" key="item" item="item" wx:key="key">
         <swiper-item>
+          <!-- previewImage由wx提供 -->
           <image src="{{item.photo}}" data-src="{{item.photo}}" class="slide-image" @tap="previewImage" />
         </swiper-item>
       </block>
@@ -151,7 +152,7 @@ import {
 } from '../utils/constant'
 import tip from '../utils/tip'
 import api from '../api/api'
-import WxParse from '../plugins/wxParse/wxParse'
+import WxParse from '../plugins/wxParse/wxParse.js'
 import CommentList from '../components/comment_list'
 export default class goodsDetail extends wepy.page {
   config = {
@@ -206,6 +207,25 @@ export default class goodsDetail extends wepy.page {
 
     ],
     commentList1: []
+  }
+  wxParseImgLoad(e) {
+    console.log('wxParseImgLoad')
+    console.log(e)
+  }
+
+  wxParseImgTap(e) {
+    console.log('wxParseImgTap')
+    console.log(e)
+    var that = this
+    var nowImgUrl = e.target.dataset.src
+    var tagFrom = e.target.dataset.from
+    if (typeof (tagFrom) != 'undefined' && tagFrom.length > 0) {
+      wx.previewImage({
+        current: nowImgUrl, // 当前显示图片的http链接
+        // urls: that.data[tagFrom].imageUrls // 需要预览的图片http链接列表
+        urls: that.bindData[tagFrom].imageUrls  // 注释掉上面的 换着一行 (http://blog.csdn.net/zhuming3834/article/details/74380079)
+      })
+    }
   }
 
   components = {
@@ -266,6 +286,8 @@ export default class goodsDetail extends wepy.page {
       }
     })
     let time = {}
+    console.log('getGoodsDetail')
+    console.log(json)
     if (json.data.code == 0) {
       let data = json.data.data
       that.detail = data
@@ -281,7 +303,12 @@ export default class goodsDetail extends wepy.page {
         }
       }
     } else {
-      tip.error(json.data.msg)
+      console.log('查看商品收藏失败')
+      if (json.data.msg) {
+        tip.error(json.data.msg)
+      } else {
+        tip.error('')
+      }
     }
     that.$apply()
     // this.$invoke('timer', 'initTimer', time);
@@ -313,6 +340,8 @@ export default class goodsDetail extends wepy.page {
         num: this.orderNum
       }
     })
+    console.log('doTakeCart')
+    console.log(json)
     if (json.data.code == 0) {
       this.winHeight = '100%'
       this.animation.height(0).step()
@@ -325,7 +354,11 @@ export default class goodsDetail extends wepy.page {
       }, 100)
       tip.success('成功加入购物车')
     } else {
-      tip.error(json.data.msg)
+      if (json.data.msg) {
+        tip.error(json.data.msg)
+      } else {
+        tip.error('无法加入购物车')
+      }
     }
   }
   // 立即购买
@@ -342,6 +375,8 @@ export default class goodsDetail extends wepy.page {
         num: this.orderNum
       }
     })
+    console.log('doTakeCart')
+    console.log(json)
     if (json.data.code == 0) {
       this.winHeight = '100%'
       this.animation.height(0).step()
@@ -356,7 +391,11 @@ export default class goodsDetail extends wepy.page {
         url: '/pages/comfire_order?goodsId=' + that.goodsId + '&purchasetype=' + that.purchasetype
       })
     } else {
-      tip.error(json.data.msg)
+      if (json.data.msg) {
+        tip.error(json.data.msg)
+      } else {
+        tip.error('无法立刻购买')
+      }
     }
   }
   async showConfirmData() {
@@ -382,6 +421,8 @@ export default class goodsDetail extends wepy.page {
         goodsId: that.goodsId
       }
     })
+    console.log('goodsIsFavorite(查看商品收藏状态)')
+    console.log(json)
     if (json.data.code == 0) {
       if (json.data.isFavorite == 1) {
         this.isFavorite = true
@@ -390,7 +431,12 @@ export default class goodsDetail extends wepy.page {
         this.isFavorite = false
       }
     } else {
-      tip.error(json.data.msg)
+      console.log('查看商品收藏失败')
+      if (json.data.msg) {
+        tip.error(json.data.msg)
+      } else {
+        tip.error('查看商品收藏失败')
+      }
     }
     that.$apply()
   }
@@ -405,12 +451,15 @@ export default class goodsDetail extends wepy.page {
         goodsId: that.goodsId
       }
     })
+    console.log(json)
+
     if (json.data.code == 0) {
       console.log('===========商品收藏成功=========')
       this.isFavorite = true
       tip.toast('收藏成功')
     } else {
-      tip.error(json.data.msg)
+      console.log(json.data)
+      tip.error('收藏失败')
     }
     that.$apply()
   }
@@ -430,7 +479,8 @@ export default class goodsDetail extends wepy.page {
       tip.toast('取消收藏成功')
       this.isFavorite = false
     } else {
-      tip.error(json.data.msg)
+      console.log(json.data)
+      tip.error('取消收藏失败')
     }
     that.$apply()
   }
@@ -558,6 +608,7 @@ export default class goodsDetail extends wepy.page {
 
 </script>
 <style lang="less">
+// @import "../plugins/wxParse/wxParse.wxss";
 .swiper {
   height: 662rpx;
 }

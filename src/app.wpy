@@ -7,6 +7,14 @@
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
+import {
+  USER_SPECICAL_INFO,
+  USER_INFO,
+  SYSTEM_INFO
+} from './utils/constant'
+import {
+  wxJsCode2Session
+} from './api/api'
 
 export default class extends wepy.app {
   config = {
@@ -65,7 +73,9 @@ export default class extends wepy.app {
   }
 
   globalData = {
-    userInfo: null
+    userInfo: null,
+    appid: 'wx42bad077ed4abb8e',
+    secret: 'c15cf253c24cf93ff482d32caa428568'
   }
 
   constructor() {
@@ -74,8 +84,135 @@ export default class extends wepy.app {
     this.use('promisify')
   }
 
-  onLaunch() {
+  /* 用户登录问题 */
+  async onLaunch() {
+    console.log('登录')
 
+    let that = this
+    // 用户信息
+    let userSpecialInfo = wepy.getStorageSync(USER_SPECICAL_INFO) || {}
+
+    // 用户普通信息
+    let userInfo = wepy.getStorageSync(USER_INFO) || {}
+
+    // 如果信息过期
+    if ((!userSpecialInfo.openid || (userSpecialInfo.expires_in || Date.now()) < (Date.now() + 600)) && (!userInfo.nickName)) {
+      let res = await wepy.login()
+      console.log('wepy.login')
+      /* {errMsg: "login:ok", code: "013x7PHT0trfZX1FS9LT0mC7IT0x7PH3"} */
+      console.log(res)
+      if (res.code) {
+        let globalData = that.globalData // 这里存储了appid、secret、token串
+        console.log('globalData')
+        /* userInfo: null 就是全局的变量 */
+        console.log(globalData)
+        // 存储userInfo
+        let c = await wepy.getUserInfo()
+        wepy.setStorageSync(USER_INFO, c.userInfo)
+        console.log('getUserInfo')
+        /*  encryptedData:"k+rH5oIWBqjfpCJsBOMSotz7q+vYU99kGG4xNU76kVE7IXAw/hGnJkO4/B+fdPbI/HZTClCt10Rih5uOX1Dd2VsPGAq+W1tNAPMWHlwC1NeBrlO/gjAILzLAirqVLG1ti3O9NNt/P7ByShJnJaukbeos0prnx8O0IUA+TN4QrfiPtYsM/gfBmBXqkbugKkhKEGJpGS3WZteifym42K7REdnPfC+KWIauBhiGEj5ohFUV4Rcs8d4wunTGVtJzS25kS4EVwZlVfms9fX+dDB1pT5ov7q+AnzVmD2AZSURyBTauWjHUyZ+VohHTQTF/3EpgA74KeLweOLP135ptP9PMCUt2QyKmLaEs7J0y2HXvKbnHW9XTYe0Mip+bp76OZytsa/lVGF3cGpR0laf9cmmrHTzoKjvEkwhCq00n5JaCuWjlpjTr5BtdKGFip7q9Rkzv1eoqAMfg3Q+wpM/Gc1TbPSkphiFQT4Ts6ubSabtkkbc="
+            errMsg:"getUserInfo:ok"
+            iv:"jwaEJVu5ZkH8/WucP0/OXg=="
+            rawData:"{"nickName":"鱼初见","gender":1,"language":"zh_CN","city":"Dongguan","province":"Guangdong","country":"China","avatarUrl":"https://wx.qlogo.cn/mmopen/vi_32/ca6wwg1Wp6YMngsyZqEGCxeUY5Wz91BYzIBiczapXt9yhNrlZRibM4TfhIEpU3yCoBoicyvpB3BFRbuXaeAXO0p9w/0"}"
+            signature:"870186863aa64b801a1d5c03d202d9d540e64e0e"
+            userInfo:{
+                      avatarUrl:"https://wx.qlogo.cn/mmopen/vi_32/ca6wwg1Wp6YMngsyZqEGCxeUY5Wz91BYzIBiczapXt9yhNrlZRibM4TfhIEpU3yCoBoicyvpB3BFRbuXaeAXO0p9w/0"
+                      city:"Dongguan"
+                      country:"China"
+                      gender:1
+                      language:"zh_CN"
+                      nickName:"鱼初见"
+                      province:"Guangdong"} */
+        console.log(c)
+
+        // 存储系统信息
+        let systemInfo = wepy.getSystemInfoSync()
+        wepy.setStorageSync(SYSTEM_INFO, systemInfo)
+        console.log('systemInfo')
+        /* SDKVersion:"1.9.0"
+            brand:"devtools"
+            fontSizeSetting:16
+            language:"zh_CN"
+            model:"iPhone 7"
+            pixelRatio:2
+            platform:"devtools"
+            screenHeight:667
+            screenWidth:375
+            system:"iOS 10.0.1"
+            version:"6.5.6"
+            windowHeight:555
+            windowWidth:375 */
+        console.log(systemInfo)
+        /* https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html#wxloginobject
+        自己请求就好了 */
+        wxJsCode2Session({
+          query: {
+            jsCode: res.code,
+            nickName: c.userInfo.nickName // 昵称不行啊
+          }
+        }).then(resp => {
+          /* {"result":false,"data":{"errcode":40029,"errmsg":"invalid code, hints: [ req_id: 2PKXja0444th41 ]"}} */
+          var rlt = resp.data
+          console.log('wxJsCode2Session...' + JSON.stringify(rlt))
+          console.log(rlt)
+          if (rlt.result) {
+            var data = rlt.data
+            if (data.openid) {
+              let obj = {}
+              obj.openid = data.openid
+              obj.expires_in = Date.now() + data.expires_in
+              // 存储openid
+              wepy.setStorageSync(USER_SPECICAL_INFO, obj)
+            }
+          } else {
+            let obj = {}
+            obj.openid = 'oeuj50KHMqsh5kYZYWQJuwmY5yG0'
+            obj.expires_in = '7200'
+            // 存储openid
+            wepy.setStorageSync(USER_SPECICAL_INFO, obj)
+            console.log('USER_SPECICAL_INFO')
+            console.log(obj)
+          }
+        })
+        // 腾讯不允许在小程序里请求 (https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html)
+        // 调用接口获取登录凭证（code）进而换取用户登录态信息，包括用户的唯一标识（openid） 及本次登录的 会话密钥（session_key）等。用户数据的加解密通讯需要依赖会话密钥完成。
+        /*  https://api.weixin.qq.com 不在以下 request 合法域名列表中，请参考文档：https://mp.weixin.qq.com/debug/wxadoc/dev/api/network-request.html */
+        /*
+        let url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' + globalData.appid + '&secret=' + globalData.secret + '&js_code=' + res.code + '&grant_type=authorization_code'
+        let jscode2session = await wepy.request({
+          url: url,
+          data: {},
+          method: 'POST',
+          header: {
+            'content-Type': 'application/x-www-form-urlencoded'
+          }
+        })
+        if (jscode2session.data.openid) {
+          let obj = {}
+          obj.openid = jscode2session.data.openid
+          obj.expires_in = Date.now() + jscode2session.data.expires_in
+
+          // 存储openid
+          wepy.setStorageSync(USER_SPECICAL_INFO, obj)
+
+          // 存储userInfo
+          let c = await wepy.getUserInfo()
+          wepy.setStorageSync(USER_INFO, c.userInfo)
+
+          // 存储系统信息
+          let systemInfo = await wepy.getSystemInfoSync()
+          wepy.setStorageSync(SYSTEM_INFO, systemInfo)
+          console.log(jscode2session, '登陆成功')
+          console.log('USER_SPECICAL_INFO')
+          console.log(obj)
+        }
+      } else {
+        console.log('获取用户登录态失败！' + res.errMsg)
+      }
+
+        */
+
+    }
   }
 
   getUserInfo(cb) {

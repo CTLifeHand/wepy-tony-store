@@ -46,6 +46,9 @@ npm install wepy-cli -g
 - contact-button (https://mp.weixin.qq.com/debug/wxadoc/dev/api/custommsg/receive.html)
 - errMsg: "navigateTo:fail can not navigateTo a tabbar page"}
 
+## 登录问题
+- Token验证错误(因为openID没办法获得 所以是没办法登录的 )
+
 ### 开发使用说明
 
 使用微信开发者工具新建项目，本地开发选择dist目录。

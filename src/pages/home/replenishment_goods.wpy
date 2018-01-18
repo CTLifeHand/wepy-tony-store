@@ -75,6 +75,7 @@ export default class replenishmentGoods extends wepy.page {
         doType: this.currentTab
       }
     })
+    console.log(json)
     if (json.data.code == 0) {
       this.list = [...this.list, ...json.data.list]
       this.page_total = json.data.page_total
@@ -83,7 +84,7 @@ export default class replenishmentGoods extends wepy.page {
         this.is_empty = true
       }
     } else {
-      tip.error(json.data.msg)
+      tip.error2(json.data.msg)
     }
     this.showLoading = false
     this.$apply()
@@ -92,7 +93,7 @@ export default class replenishmentGoods extends wepy.page {
   onLoad() {
     let that = this
     let systemInfo = wx.getStorageSync(SYSTEM_INFO)
-    that.winHeight = systemInfo.windowHeight
+    that.winHeight = systemInfo.windowHeight || 600
     this.list = []
     this.is_empty = false
     this.getMyOrderGoodsList()

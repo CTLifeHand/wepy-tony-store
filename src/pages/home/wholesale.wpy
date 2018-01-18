@@ -15,9 +15,11 @@ import tip from '../../utils/tip'
 import BottomLoadMore from '../../components/common/bottomLoadMore'
 import Placeholder from '../../components/common/placeholder'
 export default class wholesale extends wepy.page {
+
   config = {
     navigationBarTitleText: '特价专区'
   }
+
   components = {
     shopGridList: ShopGridList,
     bottomLoadMore: BottomLoadMore,

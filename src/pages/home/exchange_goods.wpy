@@ -53,6 +53,8 @@ export default class exchangeGoods extends wepy.page {
         type: 'refund'
       }
     })
+    console.log(json)
+
     if (json.data.code == 0) {
       this.list = [...this.list, ...json.data.list]
       this.page_total = json.data.page_total
@@ -61,7 +63,7 @@ export default class exchangeGoods extends wepy.page {
         this.is_empty = true
       }
     } else {
-      tip.error(json.data.msg)
+      tip.error2(json.data.msg)
     }
     this.showLoading = false
     this.$apply()

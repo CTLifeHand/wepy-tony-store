@@ -73,6 +73,8 @@ export default class Messages extends wepy.page {
         size: size || 10
       }
     })
+    console.log('getUserMessage')
+    console.log(json)
     if (json.data.code == 0) {
       that.list = [...that.list, ...json.data.list]
       that.page_total = json.data.page_total
@@ -81,7 +83,12 @@ export default class Messages extends wepy.page {
         that.is_empty = true
       }
     } else {
-      tip.error(json.data.msg)
+      that.is_empty = true
+      if (json.data.msg) {
+        tip.error2(json.data.msg)
+      } else {
+        tip.error2('暂无消息')
+      }
     }
     that.showLoading = false
     that.$apply()
@@ -91,7 +98,7 @@ export default class Messages extends wepy.page {
     this.list = []
     // 设置滚动高度
     let systemInfo = wepy.getStorageSync(SYSTEM_INFO)
-    that.winHeight = systemInfo.windowHeight
+    that.winHeight = systemInfo.windowHeight || 600
     that.getUserMessage()
   }
   computed = {

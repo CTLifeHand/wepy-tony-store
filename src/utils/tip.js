@@ -80,6 +80,15 @@ export default class Tips {
     })
   }
 
+  static alert2(title) {
+    wx.showToast({
+      title: title,
+      image: '../../images/alert.png',
+      mask: true,
+      duration: 1500
+    })
+  }
+
   /**
    * 错误框
    */
@@ -88,6 +97,21 @@ export default class Tips {
     wx.showToast({
       title: title,
       image: '../images/error.png',
+      mask: true,
+      duration: 500
+    })
+    // 隐藏结束回调
+    if (onHide) {
+      setTimeout(() => {
+        onHide()
+      }, 500)
+    }
+  }
+
+  static error2(title, onHide) {
+    wx.showToast({
+      title: title,
+      image: '../../images/error.png',
       mask: true,
       duration: 500
     })

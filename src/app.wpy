@@ -13,8 +13,14 @@ export default class extends wepy.app {
     pages: [
       'frame/home',
       'frame/classify',
+      // home /pages/home/messages
+      'pages/home/messages',
+      'pages/home/sign_in',
+      'pages/home/wholesale',
+      'pages/home/replenishment_goods',
       'pages/home_detail',
       'pages/goods_detail',
+      'pages/comment', // goods_detail
       'pages/search'
     ],
     window: {

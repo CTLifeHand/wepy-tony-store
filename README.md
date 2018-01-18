@@ -8,6 +8,10 @@ npm install wepy-cli -g
 - 同样有bug 一旦有wpy 就会被编译 等于有错误的代码会自动失败
 - 就算新建一个文件夹frame 也会有同样的问题
 
+
+
+
+
 ### wxParse的wxParseImgTap的bug修复
 - http://blog.csdn.net/zhuming3834/article/details/74380079
 
@@ -39,6 +43,8 @@ npm install wepy-cli -g
 
 ### 知识点
 - previewImage由wx提供
+- contact-button
+- errMsg: "navigateTo:fail can not navigateTo a tabbar page"}
 
 ### 开发使用说明
 

@@ -22,13 +22,20 @@ export default class extends wepy.app {
       'frame/home',
       'frame/classify',
       'frame/info',
-      // home /pages/home/messages home/exchange_goods
+      // home
       'pages/home/messages',
       'pages/home/sign_in',
       'pages/home/wholesale',
       'pages/home/replenishment_goods',
       'pages/home/exchange_goods',
       'pages/home_detail',
+      // info
+      'pages/info/collection',
+      'pages/info/order',
+      'pages/info/points',
+      'pages/info/register',
+      'pages/info/reorder',
+      'pages/info/setting',
       'pages/goods_detail',
       'pages/comment', // goods_detail
       'pages/search'

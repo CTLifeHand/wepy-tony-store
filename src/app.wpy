@@ -21,6 +21,7 @@ export default class extends wepy.app {
     pages: [
       'frame/home',
       'frame/classify',
+      'frame/info',
       // home /pages/home/messages home/exchange_goods
       'pages/home/messages',
       'pages/home/sign_in',

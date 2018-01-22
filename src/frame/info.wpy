@@ -100,9 +100,10 @@ export default class Index extends wepy.page {
         openId: openId
       }
     })
-
+    console.log('getUserInfo')
+    console.log(json)
     if (json.data.code == 0) {
-      if (json.data.user.mobile.length > 0) {
+      if (json.data.user && json.data.user.mobile.length > 0) {
         this.bShowBind = false
       } else {
         this.bShowBind = true
